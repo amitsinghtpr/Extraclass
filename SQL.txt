@@ -1,0 +1,15 @@
+Q1. Write a query to print Pneumonia patient(s) First name who is weighing more than 100.
+
+Ans: SELECT first_name FROM patients WHERE diagnosis = 'Pneumonia' AND weight > 100
+
+Q2. Write a query to print doctor attending id who attended lowest patients and how many patient he/she attended?
+
+Ans:SELECT attending_doctor_id, COUNT(patient_id) AS num_patients_attended FROM admission GROUP BY attending_doctor_id ORDER BY num_patients_attended ASC LIMIT 1
+
+Q3.Write a SQL query to show the doctor id and last name who attended highest patients.
+
+Ans:SELECT doctor_id, last_name FROM doctors WHERE doctor_id = (SELECT attending_doctor_id FROM admission GROUP BY attending_doctor_id ORDER BY COUNT(patient_id) DESC LIMIT 1)
+
+Q4.Write a SQL quey to show all Ontario Province patients ID's who are allergic to 'Honey' and 'Sulfa'.
+
+Ans:SELECT patient_id FROM patients WHERE province = 'Ontario' AND patient_id IN (SELECT patient_id FROM patients WHERE allergy IN ('Honey', 'Sulfa') GROUP BY patient_id HAVING COUNT(DISTINCT allergy) = 2)
